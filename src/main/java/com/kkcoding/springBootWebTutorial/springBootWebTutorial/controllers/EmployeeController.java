@@ -1,21 +1,23 @@
-package com.kkcoding.springBootWebTutorial.springBootWebTutorial.dto;
+package com.kkcoding.springBootWebTutorial.springBootWebTutorial.controllers;
 
-import com.kkcoding.springBootWebTutorial.springBootWebTutorial.entities.EmployeeEntity;
-import com.kkcoding.springBootWebTutorial.springBootWebTutorial.repositories.EmployeeRepository;
-import com.kkcoding.springBootWebTutorial.springBootWebTutorial.services.EmployeService;
+import com.kkcoding.springBootWebTutorial.springBootWebTutorial.dto.EmployeeDTO;
+import com.kkcoding.springBootWebTutorial.springBootWebTutorial.services.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/india")
 public class EmployeeController {
 
-    private final EmployeService employeService;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeService employeService) {
-        this.employeService = employeService;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping(path = "/getSecretMessage")
@@ -28,8 +30,12 @@ public class EmployeeController {
     // path variable written like any one of the method
     //convert the json data into objects that thing is done by JACKSON
 
-    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id){
-        return employeService.getEmployeeById(id);
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable(name = "employeeId") Long id){
+        Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
+        return employeeDTO
+                .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
+                .orElse(ResponseEntity.notFound().build());
+
 
 //        return new EmployeeDTO(id, "Krishnakant", "strikerKK@gmail.com", 23, LocalDate.of(2025, 3, 1), true);
     }
@@ -38,7 +44,7 @@ public class EmployeeController {
     //for the second param you have to use & then write your second param
     @GetMapping(path = "/employees")
     public List<EmployeeDTO> getAllEmployees(@RequestParam (required = false) Integer age, @RequestParam (required = false) Integer weight){
-        return employeService.getAllEmployees();
+        return employeeService.getAllEmployees();
 //        if(age == null && weight == null){
 //            return "I don't know my age and weight";
 //        }
@@ -52,14 +58,27 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/employees")
-    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employeeInput){
-            return employeService.createNewEmployee(employeeInput);
+    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody EmployeeDTO employeeInput){
+            EmployeeDTO savedEmployee = employeeService.createNewEmployee(employeeInput);
+            return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
 //        employeeDTOInput.setId(100L);
 //        return employeeDTOInput;
     }
 
-    @PutMapping(path = "/employees")
-    public String updateEmployeeById(){
-        return "Hello from the put req";
+    @PutMapping(path = "/employees/{employeeId}")
+    public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId){
+        System.out.println("Entering in the put");
+        return employeeService.updateEmployeeById(employeeId, employeeDTO);
+    }
+
+    @DeleteMapping(path = "/employees/{employeeId}")
+    public boolean deleteEmployeeById(@PathVariable Long employeeId){
+        return employeeService.deleteEmployeeById(employeeId);
+    }
+
+    @PatchMapping(path = "/employees/{employeeId}")
+    public EmployeeDTO updatePartialEmployeeById(@RequestBody Map<String, Object> updates, @PathVariable Long employeeId){
+        return employeeService.updatePartialEmployeeById(employeeId, updates);
+
     }
 }
