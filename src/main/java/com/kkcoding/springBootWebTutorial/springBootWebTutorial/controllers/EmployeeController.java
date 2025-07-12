@@ -2,6 +2,7 @@ package com.kkcoding.springBootWebTutorial.springBootWebTutorial.dto;
 
 import com.kkcoding.springBootWebTutorial.springBootWebTutorial.entities.EmployeeEntity;
 import com.kkcoding.springBootWebTutorial.springBootWebTutorial.repositories.EmployeeRepository;
+import com.kkcoding.springBootWebTutorial.springBootWebTutorial.services.EmployeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -11,10 +12,10 @@ import java.util.List;
 @RequestMapping(path = "/india")
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeService employeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeService employeService) {
+        this.employeService = employeService;
     }
 
     @GetMapping(path = "/getSecretMessage")
@@ -27,8 +28,8 @@ public class EmployeeController {
     // path variable written like any one of the method
     //convert the json data into objects that thing is done by JACKSON
 
-    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id){
-        return employeeRepository.findById(id).orElse(null);
+    public EmployeeDTO getEmployeeById(@PathVariable(name = "employeeId") Long id){
+        return employeService.getEmployeeById(id);
 
 //        return new EmployeeDTO(id, "Krishnakant", "strikerKK@gmail.com", 23, LocalDate.of(2025, 3, 1), true);
     }
@@ -36,8 +37,8 @@ public class EmployeeController {
     //for the query in the url your have to use ? then write age=12
     //for the second param you have to use & then write your second param
     @GetMapping(path = "/employees")
-    public List<EmployeeEntity> getAllEmployees(@RequestParam (required = false) Integer age, @RequestParam (required = false) Integer weight){
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees(@RequestParam (required = false) Integer age, @RequestParam (required = false) Integer weight){
+        return employeService.getAllEmployees();
 //        if(age == null && weight == null){
 //            return "I don't know my age and weight";
 //        }
@@ -51,8 +52,8 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/employees")
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity employeeInput){
-            return employeeRepository.save(employeeInput);
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employeeInput){
+            return employeService.createNewEmployee(employeeInput);
 //        employeeDTOInput.setId(100L);
 //        return employeeDTOInput;
     }
