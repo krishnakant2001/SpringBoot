@@ -1,13 +1,16 @@
 package com.kkcoding.springBootWebTutorial.springBootWebTutorial.controllers;
 
 import com.kkcoding.springBootWebTutorial.springBootWebTutorial.dto.EmployeeDTO;
+import com.kkcoding.springBootWebTutorial.springBootWebTutorial.exceptions.ResourceNotFoundException;
 import com.kkcoding.springBootWebTutorial.springBootWebTutorial.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -34,11 +37,16 @@ public class EmployeeController {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
         return employeeDTO
                 .map(employeeDTO1 -> ResponseEntity.ok(employeeDTO1))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with this id : " + id));
 
 
 //        return new EmployeeDTO(id, "Krishnakant", "strikerKK@gmail.com", 23, LocalDate.of(2025, 3, 1), true);
     }
+
+//    @ExceptionHandler(NoSuchElementException.class)
+//    public ResponseEntity<String> handleEmployeeNotFount(NoSuchElementException exception){
+//        return new ResponseEntity<>("Employee Not Found", HttpStatus.NOT_FOUND);
+//    }
 
     //for the query in the url your have to use ? then write age=12
     //for the second param you have to use & then write your second param
@@ -58,7 +66,7 @@ public class EmployeeController {
     }
 
     @PostMapping(path = "/employees")
-    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody EmployeeDTO employeeInput){
+    public ResponseEntity<EmployeeDTO> createNewEmployee(@RequestBody @Valid EmployeeDTO employeeInput){
             EmployeeDTO savedEmployee = employeeService.createNewEmployee(employeeInput);
             return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
 //        employeeDTOInput.setId(100L);
