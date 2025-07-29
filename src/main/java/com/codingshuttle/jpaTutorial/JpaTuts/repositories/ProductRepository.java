@@ -1,6 +1,8 @@
 package com.codingshuttle.jpaTutorial.JpaTuts.repositories;
 
 import com.codingshuttle.jpaTutorial.JpaTuts.entities.ProductEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,7 +15,10 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    List<ProductEntity> findByTitle(String title);
+    List<ProductEntity> findBy(Sort sort);
+    List<ProductEntity> findByOrderByPrice();
+
+    List<ProductEntity> findByTitleContainingIgnoringCase(String title, Pageable pageable);
 
     List<ProductEntity> findByCreatedAtAfter(LocalDateTime now);
 

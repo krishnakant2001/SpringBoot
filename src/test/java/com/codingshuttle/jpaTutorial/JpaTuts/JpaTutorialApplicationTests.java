@@ -38,7 +38,7 @@ class JpaTutorialApplicationTests {
 		List<ProductEntity> entities = productRepository.findAll();
 		System.out.println(entities);
 
-		List<ProductEntity> entries = productRepository.findByTitle("Nestle Chocolate");
+		List<ProductEntity> entries = productRepository.findByOrderByPrice();
 
 		List<ProductEntity> list = productRepository.findByCreatedAtAfter(
 				LocalDateTime.of(2024, 4, 1, 0, 0, 0)
