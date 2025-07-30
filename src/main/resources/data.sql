@@ -1,22 +1,12 @@
-INSERT INTO test.product_table (price, quantity, sku, title_x)
+INSERT INTO patient (name, gender, birth_date, email, blood_group)
 VALUES
-(12.4, 4, 'parle124', 'Parle Biscuit'),
-(76.3, 2, 'coke374', 'CokeCola'),
-(45.0, 5, 'lays300', 'Lays Chips'),
-(99.9, 1, 'maggi700', 'Maggi Noodles'),
-(23.5, 6, 'pepsi212', 'Pepsi Can'),
-(34.2, 3, 'dairy110', 'Dairy Milk'),
-(15.0, 8, 'oreo510', 'Oreo Cookies'),
-(150.0, 1, 'bournvita980', 'Bournvita Jar'),
-(60.0, 2, 'amul325', 'Amul Butter'),
-(18.5, 10, 'munch222', 'Munch Bar'),
-(25.0, 4, 'kurkure113', 'Kurkure Masala'),
-(35.0, 2, 'sprite444', 'Sprite Drink'),
-(29.9, 3, 'fanta331', 'Fanta Orange'),
-(42.0, 6, '5star765', '5 Star Chocolate'),
-(19.0, 7, 'perk176', 'Perk Wafer'),
-(12.0, 9, 'tiger124', 'Tiger Biscuit'),
-(85.0, 2, 'boost999', 'Boost Energy'),
-(70.0, 5, 'nestle333', 'Nestle Kitkat'),
-(110.0, 1, 'realjuice888', 'Real Juice'),
-(55.5, 3, 'thumbsup321', 'Thumbs Up');
+('Aarav Sharma', 'MALE', '1990-05-10', 'aarav.sharma@example.com', 'O_POSITIVE'),
+('Priya Verma', 'FEMALE', '1992-07-15', 'priya.verma@example.com', 'A_POSITIVE'),
+('Rahul Singh', 'MALE', '1985-03-22', 'rahul.singh@example.com', 'B_POSITIVE'),
+('Neha Mehta', 'FEMALE', '1996-09-12', 'neha.mehta@example.com', 'AB_POSITIVE'),
+('Vikram Patel', 'MALE', '1988-11-30', 'vikram.patel@example.com', 'O_NEGATIVE'),
+('Anjali Desai', 'FEMALE', '1991-04-18', 'anjali.desai@example.com', 'A_NEGATIVE'),
+('Rohan Joshi', 'MALE', '1993-02-27', 'rohan.joshi@example.com', 'B_NEGATIVE'),
+('Sneha Nair', 'FEMALE', '1995-06-05', 'sneha.nair@example.com', 'AB_NEGATIVE'),
+('Karan Kapoor', 'MALE', '1989-08-09', 'karan.kapoor@example.com', 'O_POSITIVE');
+
