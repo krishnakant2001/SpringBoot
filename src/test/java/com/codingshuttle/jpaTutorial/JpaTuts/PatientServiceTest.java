@@ -1,5 +1,7 @@
 package com.codingshuttle.jpaTutorial.JpaTuts;
 
+import com.codingshuttle.jpaTutorial.JpaTuts.dto.BloodGroupStats;
+import com.codingshuttle.jpaTutorial.JpaTuts.dto.CPatientInfo;
 import com.codingshuttle.jpaTutorial.JpaTuts.dto.IPatientInfo;
 import com.codingshuttle.jpaTutorial.JpaTuts.entities.Patient;
 import com.codingshuttle.jpaTutorial.JpaTuts.repositories.PatientRepository;
@@ -27,5 +29,26 @@ public class PatientServiceTest {
         for(IPatientInfo p : patientInfoList){
             System.out.println(p);
         }
+    }
+
+    @Test
+    public void testPatientClass(){
+        List<CPatientInfo> patientInfoList = patientRepository.getAllPatientInfoConcrete();
+
+        for(CPatientInfo p : patientInfoList){
+            System.out.println(p);
+        }
+    }
+
+    @Test
+    public void testPatientClassBloodGroup(){
+        int rowsAffected = patientRepository.updatePatientNameWithId("Krishnakant", 1L);
+        List<BloodGroupStats> bloodGroupStats = patientRepository.getBloodGroupStats();
+
+        for(BloodGroupStats p : bloodGroupStats){
+            System.out.println(p);
+        }
+
+        System.out.println(rowsAffected);
     }
 }
