@@ -5,6 +5,7 @@ import com.codingshuttle.jpaTutorial.JpaTuts.dto.CPatientInfo;
 import com.codingshuttle.jpaTutorial.JpaTuts.dto.IPatientInfo;
 import com.codingshuttle.jpaTutorial.JpaTuts.entities.Patient;
 import com.codingshuttle.jpaTutorial.JpaTuts.repositories.PatientRepository;
+import com.codingshuttle.jpaTutorial.JpaTuts.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,9 @@ public class PatientServiceTest {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private PatientService patientService;
 
     @Test
     public void testPatient() {
@@ -50,5 +54,10 @@ public class PatientServiceTest {
         }
 
         System.out.println(rowsAffected);
+    }
+
+    @Test
+    public void testPatientTransaction(){
+        patientService.testPatientTransaction();
     }
 }
