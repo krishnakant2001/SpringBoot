@@ -1,10 +1,8 @@
 package com.codingshuttle.jpaTutorial.JpaTuts.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Builder
 public class Appointment {
 
     //this is owning side because Patient can exists
@@ -28,14 +28,18 @@ public class Appointment {
     @Column(length = 500)
     private String reason;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @ToString.Exclude
+    @JsonIgnore
     private Patient patient;
     //many appointment to one patient
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @ToString.Exclude
+    @JsonIgnore
     private Doctor doctor;
 
 }

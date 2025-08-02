@@ -1,15 +1,22 @@
 package com.codingshuttle.jpaTutorial.JpaTuts;
 
+import com.codingshuttle.jpaTutorial.JpaTuts.entities.Appointment;
 import com.codingshuttle.jpaTutorial.JpaTuts.entities.Insurance;
+import com.codingshuttle.jpaTutorial.JpaTuts.services.AppointmentService;
 import com.codingshuttle.jpaTutorial.JpaTuts.services.InsuranceService;
+import com.codingshuttle.jpaTutorial.JpaTuts.services.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @SpringBootTest
 public class InsuranceServiceTest {
+
+    @Autowired
+    private PatientService patientService;
 
     @Autowired
     private InsuranceService insuranceService;
@@ -26,7 +33,7 @@ public class InsuranceServiceTest {
 
         System.out.println(updateInsurance);
 
-        insuranceService.deletePatient(1L);
+        patientService.deletePatient(1L);
 
     }
 }

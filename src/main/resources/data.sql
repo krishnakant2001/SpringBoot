@@ -10,3 +10,8 @@ VALUES
 ('Sneha Nair', 'FEMALE', '1995-06-05', 'sneha.nair@example.com', 'AB_NEGATIVE'),
 ('Karan Kapoor', 'MALE', '1989-08-09', 'karan.kapoor@example.com', 'O_POSITIVE');
 
+INSERT INTO doctor (name, specialization, email)
+VALUES
+('Dr. Aisha Sharma', 'Cardiology', 'aisha.sharma@example.com'),
+('Dr. Rahul Mehta', 'Neurology', 'rahul.mehta@example.com'),
+('Dr. Neha Joshi', 'Pediatrics', 'neha.joshi@example.com');
