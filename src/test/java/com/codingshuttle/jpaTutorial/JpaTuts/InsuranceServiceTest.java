@@ -33,7 +33,9 @@ public class InsuranceServiceTest {
 
         System.out.println(updateInsurance);
 
-        patientService.deletePatient(1L);
+//        patientService.deletePatient(1L);
+        var patient = insuranceService.removeInsuranceOfAPatient(1L);
 
+        System.out.println(patient);
     }
 }

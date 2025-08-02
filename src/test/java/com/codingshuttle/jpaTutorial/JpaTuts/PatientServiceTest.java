@@ -60,4 +60,20 @@ public class PatientServiceTest {
     public void testPatientTransaction(){
         patientService.testPatientTransaction();
     }
+
+    @Test
+    public void testPatientList(){
+        
+//      List<Patient> patientList = patientRepository.findAll();
+
+        //here when we are going to print that
+        //then hibernate will create N+1 queries
+        //which is not optimised way to handling
+
+        List<Patient> patientList = patientRepository.getAllPatientsWithAppointments();
+
+        for(var p: patientList){
+            System.out.println(p);
+        }
+    }
 }
