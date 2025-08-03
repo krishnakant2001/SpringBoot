@@ -2,8 +2,12 @@ package com.codingshuttle.krishnakant.prod_ready_feature.prod_ready_feature.clie
 
 import com.codingshuttle.krishnakant.prod_ready_feature.prod_ready_feature.advice.ApiResponse;
 import com.codingshuttle.krishnakant.prod_ready_feature.prod_ready_feature.dto.EmployeeDTO;
+import com.codingshuttle.krishnakant.prod_ready_feature.prod_ready_feature.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -47,13 +51,17 @@ public class EmployeeClientImpl implements EmployeeClient{
     @Override
     public EmployeeDTO createNewEmployee(EmployeeDTO inputEmployeeDto) {
         try{
-            ApiResponse<EmployeeDTO> employeeDTOApiResponse = restClient.post()
+            ResponseEntity<ApiResponse<EmployeeDTO>> employeeDTOApiResponse = restClient.post()
                     .uri("employees")
                     .body(inputEmployeeDto)
                     .retrieve()
-                    .body(new ParameterizedTypeReference<>() {
+                    .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                        System.out.println("Error Occured: " + new String(res.getBody().readAllBytes()));
+                        throw new ResourceNotFoundException("could not create the employee");
+                    })
+                    .toEntity(new ParameterizedTypeReference<>() {
                     });
-            return employeeDTOApiResponse.getData();
+            return employeeDTOApiResponse.getBody().getData();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
