@@ -24,22 +24,24 @@ public class EmployeeClientImpl implements EmployeeClient{
 
     @Override
     public List<EmployeeDTO> getAllEmployees() {
-
-        log.error("error log");
-        log.warn("warn log");
-        log.info("info log");
-        log.debug("debug log");
-        log.trace("trace log");
-
-
+        log.trace("Trying to retrieve all employees in getAllEmployees");
         try{
+            log.info("Attempting to call the RestClient method in getAllEmployees");
             ApiResponse<List<EmployeeDTO>> employeeDTOList = restClient.get()
                     .uri("employees")
                     .retrieve()
+                    .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                        log.error(new String(res.getBody().readAllBytes()));
+                        throw new ResourceNotFoundException("could not get the all employees");
+                    })
                     .body(new ParameterizedTypeReference<>() {
                     });
+            log.debug("Successfully retrieved the employees in getAllEmployees");
+            log.trace("Retrieved employees list in getAllEmployees: {}", employeeDTOList.getData());
             return employeeDTOList.getData();
+
         } catch (Exception e) {
+            log.error("Exception occurred in getAllEmployees", e);
             throw new RuntimeException(e);
         }
     }
